@@ -35,6 +35,18 @@ const userSchema = new mongoose.Schema (
         image: {type: String, default: '/img/undefined.png' }, //(url cloudinary)
         password: {type: String, required: true}, //bcrypt
         description: {type: String, default: ''}
+    },{
+        timestamps: true,
+        toJSON: {
+            virtuals: true,
+			transform: (doc, ret) => {
+				ret.id = doc._id;
+				delete ret._id;
+                delete ret.__v;
+                delete ret.password;
+				return ret;
+			}
+		}
     }
 )
 
