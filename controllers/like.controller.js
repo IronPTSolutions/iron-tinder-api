@@ -7,22 +7,36 @@ module.exports.like = (req, res, next) => {
   const params = { 
     toUser: req.params.id,
     fromUser: req.currentUser.id
-  }
+  } 
 
-  Like.findOne(params)
-  .then(like => {
-    if(like) {
-      Like.findByIdAndRemove(like.id)
-      .then(() => {
-        res.json({ likes: -1 })
-      }).cath(next)
-    } else {
-      const like = new Like(params)
+      const newLike = new Like(params)
 
-      like.save()
+      newLike.save()
         .then(() => {
-          res.json({ likes: 1 })
-        }).cath(next)
-    }
-  }).catch(next)
+          Like.findOne(
+            {
+              toUser: req.currentUser.id,
+              fromUser: req.params.id,
+              status: true
+            }
+          )
+          .then((like) => {
+            if(like) {
+              const newMatch = new Match({
+                userA: req.currentUser.id, 
+                userB: req.params.id
+              })
+              
+              newMatch.save()
+                .then(() => {
+                  Match.findOne()
+                })
+            }
+          }
+          )
+          res.json({ 
+            like: req.params.id,  
+            Match: req.params.id })
+        })
+        .cath(next)
 }

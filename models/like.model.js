@@ -12,7 +12,9 @@ const likesSchema = new mongoose(
       ref: 'User',
       required: true      
     },
-    status: {type: boolean, required: true}
+    status: {
+      type: boolean,
+      required: true}
   }, {
     timestamps: true,
     toJSON: {
