@@ -8,6 +8,7 @@ const upload = require('./cloudinary.config');
 router.get('/', controller.base);
 
 //USERS
+router.post('/user/register', userController.register)
 
 //LIKES
 
