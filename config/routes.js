@@ -11,6 +11,7 @@ router.get('/', controller.base);
 router.post('/user/register', userController.register)
 
 //LIKES
+router.post('/user/:id/:status', likeController.like);
 
 //MATCHS
 
